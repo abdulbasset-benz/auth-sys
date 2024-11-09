@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
@@ -16,7 +17,10 @@ class UserController extends Controller
         return view('auth.register');
     }
 
-    
+    public function loginForm() : view 
+    {
+        return view('auth.login');    
+    }
 
     public function dashboard()
     {
@@ -47,19 +51,26 @@ class UserController extends Controller
         return redirect()->route('auth.dashboard');
     }
     
-    public function login(){
+    public function login(Request $request) : RedirectResponse
+    {
         
         $request->validate([
-           'email'=> 'required',
+           'email'=> ['required','email'],
            'password' => 'required'  
         ]);
 
         $loginData = $request->only('email', 'password');
-        if(Auth::attempt($loginData)){
-            return redirect()->intended('dashbaord')->withsuccess('you have logged in successfully');
+
+
+        
+        if (Auth::attempt($loginData)) {
+            return redirect()->intended('dashboard')->with('success', 'You have logged in successfully');
         }
 
-        return redirect('login')->withErrors('oups wrong data');    
+        return redirect('login')->withErrors([
+            'email' => 'wrong email',
+            'password' => 'check password again'
+        ]);
     }
     
 
