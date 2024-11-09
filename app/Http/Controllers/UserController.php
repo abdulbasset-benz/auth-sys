@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
+    public function home() : view
+    {
+        return view('auth.welcome');
+    } 
 
     public function RegisterForm(): view 
     {
@@ -73,5 +79,13 @@ class UserController extends Controller
         ]);
     }
     
+    public function logout() : RedirectResponse 
+
+    {
+        Session::flush();
+        Auth::logout();
+
+        return Redirect('/');
+    }
 
 }
