@@ -11,8 +11,8 @@
 </head>
 
 <body>
-    <x-forms.register-form />
-
+    <x-forms.navigation />
+    <h1 class="text-4xl font-bold text-center">welcome page</h1>
 </body>
 
 </html>
