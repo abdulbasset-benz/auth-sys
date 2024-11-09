@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -14,6 +15,8 @@ class UserController extends Controller
     {
         return view('auth.register');
     }
+
+    
 
     public function dashboard()
     {
@@ -38,10 +41,26 @@ class UserController extends Controller
             ]);
             
         // Login
-        
+             Auth::login($user); 
 
         // Redirect
         return redirect()->route('auth.dashboard');
-}
+    }
+    
+    public function login(){
+        
+        $request->validate([
+           'email'=> 'required',
+           'password' => 'required'  
+        ]);
+
+        $loginData = $request->only('email', 'password');
+        if(Auth::attempt($loginData)){
+            return redirect()->intended('dashbaord')->withsuccess('you have logged in successfully');
+        }
+
+        return redirect('login')->withErrors('oups wrong data');    
+    }
+    
 
 }
