@@ -11,12 +11,17 @@
             <li><a class="hover:text-blue-300" href="{{ route('auth.home') }}">home</a></li>
             <li><a class="hover:text-blue-300" href="#">posts</a></li>
             <li><a class="hover:text-blue-300" href="{{ route('auth.dashboard') }}">dashboard</a></li>
+            @auth
+                <li><a class="hover:text-blue-300" href="{{ route('profile.profile') }}">profile</a></li>
+            @endauth
         </ul>
 
         @guest
             <div>
-                <a class="py-2.5 px-8 mr-6 bg-blue-500 uppercase font-semibold rounded-md hover:bg-blue-700" href="{{ route('register-user') }}">register</a>
-                <a class="py-2.5 px-8 bg-blue-500 uppercase font-semibold rounded-md hover:bg-blue-700" href="{{ route('login') }}">login</a>
+                <a class="py-2.5 px-8 mr-6 bg-blue-500 uppercase font-semibold rounded-md hover:bg-blue-700"
+                    href="{{ route('register-user') }}">register</a>
+                <a class="py-2.5 px-8 bg-blue-500 uppercase font-semibold rounded-md hover:bg-blue-700"
+                    href="{{ route('login') }}">login</a>
             </div>
         @endguest
         @auth
