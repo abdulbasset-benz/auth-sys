@@ -1,36 +1,82 @@
 @vite('resources/css/app/css')
 
-<nav class="bg-slate-500 py-6 mb-5">
-    <div class="flex justify-between items-center mx-auto max-w-5xl text-slate-100">
-        <div>
-            <a href="{{ route('auth.home') }}">
-                <h1 class="font-extrabold text-xl">MyApp</h1>
-            </a>
-        </div>
-        <ul class="flex items-center space-x-20 capitalize font-semibold">
-            <li><a class="hover:text-blue-300" href="{{ route('auth.home') }}">home</a></li>
-            <li><a class="hover:text-blue-300" href="#">posts</a></li>
-            <li><a class="hover:text-blue-300" href="{{ route('auth.dashboard') }}">dashboard</a></li>
+<nav class="bg-gray-900 shadow-md">
+    <div class="container mx-auto flex justify-between items-center px-6 py-4 max-w-7xl text-gray-100">
+        <!-- Logo Section -->
+        <a href="{{ route('auth.home') }}" class="text-2xl font-extrabold text-orange-500 hover:text-teal-400 transition">
+            MyApp
+        </a>
+
+        <!-- Navigation Links (hidden on small screens) -->
+        <ul class="hidden md:flex items-center space-x-8 font-medium">
+            <li>
+                <a href="{{ route('auth.home') }}" 
+                    class="hover:text-orange-400 transition duration-200">Home</a>
+            </li>
+            <li>
+                <a href="#" 
+                    class="hover:text-orange-400 transition duration-200">Posts</a>
+            </li>
+            <li>
+                <a href="{{ route('auth.dashboard') }}" 
+                    class="hover:text-orange-400 transition duration-200">Dashboard</a>
+            </li>
             @auth
-                <li><a class="hover:text-blue-300" href="{{ route('profile.profile') }}">profile</a></li>
+                <li>
+                    <a href="{{ route('profile.profile') }}" 
+                        class="hover:text-orange-400 transition duration-200">Profile</a>
+                </li>
             @endauth
         </ul>
 
-        @guest
-            <div>
-                <a class="py-2.5 px-8 mr-6 bg-blue-500 uppercase font-semibold rounded-md hover:bg-blue-700"
-                    href="{{ route('register-user') }}">register</a>
-                <a class="py-2.5 px-8 bg-blue-500 uppercase font-semibold rounded-md hover:bg-blue-700"
-                    href="{{ route('login') }}">login</a>
-            </div>
-        @endguest
-        @auth
-            <div>
-                <a class="py-2.5 px-8 bg-blue-500 uppercase font-semibold rounded-md hover:bg-blue-700"
-                    href="{{ route('logout') }}">logout</a>
-            </div>
-        @endauth
+        <!-- Authentication Buttons -->
+        <div class="flex items-center space-x-4">
+            @guest
+                <a href="{{ route('register-user') }}"
+                    class="bg-orange-500 text-sm font-bold uppercase py-2 px-6 rounded-lg hover:bg-orange-600 transition">
+                    Register
+                </a>
+                <a href="{{ route('login') }}"
+                    class="bg-gray-700 text-sm font-bold uppercase py-2 px-6 rounded-lg hover:bg-gray-600 transition">
+                    Login
+                </a>
+            @endguest
+            @auth
+                <a href="{{ route('logout') }}"
+                    class="bg-orange-500 text-sm font-bold uppercase py-2 px-6 rounded-lg hover:bg-orange-600 transition">
+                    Logout
+                </a>
+            @endauth
+
+            <!-- Mobile Menu Toggle -->
+            <button class="block md:hidden text-2xl text-orange-500 focus:outline-none hover:text-teal-400 transition">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </div>
 
-
+    <!-- Mobile Navigation Links -->
+    <div class="md:hidden bg-gray-800">
+        <ul class="space-y-2 py-4 px-6 font-medium text-gray-100">
+            <li>
+                <a href="{{ route('auth.home') }}" 
+                    class="block hover:text-orange-400 transition duration-200">Home</a>
+            </li>
+            <li>
+                <a href="#" 
+                    class="block hover:text-orange-400 transition duration-200">Posts</a>
+            </li>
+            <li>
+                <a href="{{ route('auth.dashboard') }}" 
+                    class="block hover:text-orange-400 transition duration-200">Dashboard</a>
+            </li>
+            @auth
+                <li>
+                    <a href="{{ route('profile.profile') }}" 
+                        class="block hover:text-orange-400 transition duration-200">Profile</a>
+                </li>
+            @endauth
+        </ul>
+    </div>
 </nav>
+
