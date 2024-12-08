@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -16,16 +16,16 @@ class UserController extends Controller
     public function home() : view
     {
         return view('auth.welcome');
-    } 
+    }
 
-    public function RegisterForm(): view 
+    public function RegisterForm(): view
     {
         return view('auth.register');
     }
 
-    public function loginForm() : view 
+    public function loginForm() : view
     {
-        return view('auth.login');    
+        return view('auth.login');
     }
 
     public function dashboard()
@@ -33,42 +33,34 @@ class UserController extends Controller
         return view('auth.dashboard');
     }
 
-    public function registerUser(Request $request)
+    public function registerUser(RegisterUserRequest $request) : RedirectResponse
     {
-        // validate
-            $request->validate([
-                'name' => ['required','max:255','string'],
-                'email' => ['required','string', 'email:rfc,dns','max:255','unique:users,email' ],
-                'password' => ['required', 'string', 'min:3', 'confirmed']
-            ]);
-
-            
         // Register
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
-            
+
         // Login
-             Auth::login($user); 
+             Auth::login($user);
 
         // Redirect
         return redirect()->route('auth.dashboard');
     }
-    
+
     public function login(Request $request) : RedirectResponse
     {
-        
+
         $request->validate([
            'email'=> ['required','email'],
-           'password' => 'required'  
+           'password' => 'required'
         ]);
 
         $loginData = $request->only('email', 'password');
 
 
-        
+
         if (Auth::attempt($loginData)) {
             return redirect()->intended('dashboard')->with('success', 'You have logged in successfully');
         }
@@ -78,8 +70,8 @@ class UserController extends Controller
             'password' => 'check password again'
         ]);
     }
-    
-    public function logout() : RedirectResponse 
+
+    public function logout() : RedirectResponse
 
     {
         Session::flush();
